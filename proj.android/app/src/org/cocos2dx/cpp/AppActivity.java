@@ -27,11 +27,19 @@ package org.cocos2dx.cpp;
 import android.os.Bundle;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
+
+// import com.google.android.gms.ads.AdRequest;
+// import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
 
 public class AppActivity extends Cocos2dxActivity {
 
@@ -39,6 +47,9 @@ public class AppActivity extends Cocos2dxActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.setEnableVirtualButton(false);
         super.onCreate(savedInstanceState);
+
+//        setContentView(R.layout.activity_main);
+
         // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
         if (!isTaskRoot()) {
             // Android launched another instance of the root activity into an existing task
@@ -55,19 +66,34 @@ public class AppActivity extends Cocos2dxActivity {
             getWindow().setAttributes(lp);
         }
         // DO OTHER INITIALIZATION BELOW
-         Button crashButton = new Button(this);
-         crashButton.setText("Crash!");
-         crashButton.setOnClickListener(new View.OnClickListener() {
-             public void onClick(View view) {
-                 throw new RuntimeException("Test Crash"); // Force a crash
-             }
-         });
+//         Button crashButton = new Button(this);
+//         crashButton.setText("Crash!");
+//         crashButton.setOnClickListener(new View.OnClickListener() {
+//             public void onClick(View view) {
+//                 throw new RuntimeException("Test Crash"); // Force a crash
+//             }
+//         });
+//
+//         addContentView(crashButton, new ViewGroup.LayoutParams(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT));
+                
+        // AdView adView = new AdView(this);
+        // // Add adView to your view hierarchy.
+        // adView.setAdSize(AdSize.BANNER);
+        // adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
 
-         addContentView(crashButton, new ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT));
+        Log.d("shijas","beforeAdsInitialize");
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+                Log.d("shijas","afterAdsInitialize");
+            }
+        });
 
-//        throw new RuntimeException("This is a crash");
+        // mAdView = findViewById(R.id.adView);
+        // AdRequest adRequest = new AdRequest.Builder().build();
+        // mAdView.loadAd(adRequest);
     }
 
 }
